@@ -1146,15 +1146,46 @@ def dropbox(url):
 # shareus
 
 
-def shareus(url):
+async def shareus(url):
+    code = url.split('/')[-1]
+    DOMAIN = "https://api.shrslink.xyz"
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36',
+        'Origin': 'https://shareus.io'
+    }
+    api = f"{DOMAIN}/v?shortid={code}&initial=true&referrer="
 
-    token = url.split("=")[-1]
+    async with aiohttp.ClientSession() as session:
+        async with session.get(api, headers=headers) as resp:
+            try:
+                data = await resp.json()
+            except aiohttp.ContentTypeError:
+                # Print the response text for debugging
+                text = await resp.text()
+                print(f"Non-JSON response received: {text}")
+                return "Error: Non-JSON response"
 
-    bypassed_url = "https://us-central1-my-apps-server.cloudfunctions.net/r?shortid=" + token
+            id = data.get('sid')
+            if not id:
+                return "ID Error"
+            
+            api_2 = f"{DOMAIN}/get_link?sid={id}"
+            async with session.get(api_2, headers=headers) as resp_2:
+                try:
+                    data_2 = await resp_2.json()
+                except aiohttp.ContentTypeError:
+                    # Print the response text for debugging
+                    text = await resp_2.text()
+                    print(f"Non-JSON response received: {text}")
+                    return "Error: Non-JSON response"
 
-    response = requests.get(bypassed_url).text
+                final = data_2['link_info']['destination']
+                return final
 
-    return response
+# To run the async function
+# url = "your_url_here"
+# asyncio.run(shareus(url))
+
 
 #######################################################
 # shortingly
