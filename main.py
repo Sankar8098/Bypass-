@@ -16,20 +16,24 @@ import freewall
 from time import time
 from db import DB
 
-
 # bot
 with open("config.json", "r") as f:
-    DATA: dict = load(f)
-
+    DATA = load(f)
 
 def getenv(var):
     return environ.get(var) or DATA.get(var, None)
 
+bot_token = getenv("bot_token")
+api_hash = getenv("api_hash")
+api_id = getenv("api_id")
 
-bot_token = getenv("BOT_TOKEN")
-api_hash = getenv("API_HASH")
-api_id = getenv("API_ID")
+# Print loaded values for debugging
+print(f"bot_token: {bot_token}")
+print(f"api_hash: {api_hash}")
+print(f"api_id: {api_id}")
+
 app = Client("my_bot", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
+
 with app:
     app.set_bot_commands(
         [
@@ -42,11 +46,11 @@ with app:
 db_api = getenv("DB_API")
 db_owner = getenv("DB_OWNER")
 db_name = getenv("DB_NAME")
-try: database = DB(api_key=db_api, db_owner=db_owner, db_name=db_name)
+try:
+    database = DB(api_key=db_api, db_owner=db_owner, db_name=db_name)
 except: 
     print("Database is Not Set")
     database = None
-
 
 # handle index
 def handleIndex(ele: str, message: Message, msg: Message):
@@ -63,7 +67,6 @@ def handleIndex(ele: str, message: Message, msg: Message):
             reply_to_message_id=message.id,
             disable_web_page_preview=True,
         )
-
 
 # loop thread
 def loopthread(message: Message, otherss=False):
@@ -191,16 +194,12 @@ def loopthread(message: Message, otherss=False):
             reply_to_message_id=message.id,
         )
 
-
 # start command
 @app.on_message(filters.command(["start"]))
-def send_start(
-    client: Client,
-    message: Message,
-):
+def send_start(client: Client, message: Message):
     app.send_message(
         message.chat.id,
-        f"__👋 Hi **{message.from_user.mention}**, i am Link Bypasser Bot, just send me any supported links and i will you get you results.\nCheckout /help to Read More__",
+        f"__👋 Hi **{message.from_user.mention}**, I am Link Bypasser Bot, just send me any supported links and I will get you results.\nCheck out /help to Read More__",
         reply_markup=InlineKeyboardMarkup(
             [
                 [
@@ -220,13 +219,9 @@ def send_start(
         reply_to_message_id=message.id,
     )
 
-
 # help command
 @app.on_message(filters.command(["help"]))
-def send_help(
-    client: Client,
-    message: Message,
-):
+def send_help(client: Client, message: Message):
     app.send_message(
         message.chat.id,
         HELP_TEXT,
@@ -234,16 +229,11 @@ def send_help(
         disable_web_page_preview=True,
     )
 
-
 # links
 @app.on_message(filters.text)
-def receive(
-    client: Client,
-    message: Message,
-):
+def receive(client: Client, message: Message):
     bypass = Thread(target=lambda: loopthread(message), daemon=True)
     bypass.start()
-
 
 # doc thread
 def docthread(message: Message):
@@ -259,26 +249,20 @@ def docthread(message: Message):
     )
     remove(file)
 
-
 # files
 @app.on_message([filters.document, filters.photo, filters.video])
-def docfile(
-    client: Client,
-    message: Message,
-):
-
-    try:
-        if message.document.file_name.endswith("dlc"):
+def file_receive(client: Client, message: Message):
+    if message.document:
+        if ".dlc" in message.document.file_name:
             bypass = Thread(target=lambda: docthread(message), daemon=True)
             bypass.start()
             return
-    except:
-        pass
-
+        else:
+            bypass = Thread(target=lambda: loopthread(message, True), daemon=True)
+            bypass.start()
+            return
     bypass = Thread(target=lambda: loopthread(message, True), daemon=True)
     bypass.start()
 
-
-# server loop
-print("Bot Starting")
 app.run()
+
