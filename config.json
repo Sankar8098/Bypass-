@@ -1,7 +1,7 @@
 {
-    "TOKEN": "",
-    "ID": "",
-    "HASH": "",
+    "TOKEN": "6391501774:AAGKZc4I9EHetc9td-mDe6ZAG9K1sbBfBt4",
+    "ID": "23562101",
+    "HASH": "6615417976218d5e44eb2b077a0a0ed0",
     "Laravel_Session": "",
     "XSRF_TOKEN": "",
     "GDTot_Crypt": "",
@@ -13,7 +13,7 @@
     "TERA_COOKIE": "",
     "CLOUDFLARE": "",
     "PORT": 5000,
-    "DB_API": "",
+    "DB_API": "mongodb+srv://sankar:sankar@sankar.lldcdsx.mongodb.net/?retryWrites=true&w=majority",
     "DB_OWNER": "bipinkrish",
     "DB_NAME": "link_bypass.db"
 }
