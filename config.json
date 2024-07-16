@@ -1,7 +1,7 @@
 {
-    "TOKEN": "6391501774:AAGKZc4I9EHetc9td-mDe6ZAG9K1sbBfBt4",
-    "ID": "23562101",
-    "HASH": "6615417976218d5e44eb2b077a0a0ed0",
+    "bot_token": "6391501774:AAGKZc4I9EHetc9td-mDe6ZAG9K1sbBfBt4",
+    "api_id": "23562101",
+    "api_hash": "6615417976218d5e44eb2b077a0a0ed0",
     "Laravel_Session": "",
     "XSRF_TOKEN": "",
     "GDTot_Crypt": "",
