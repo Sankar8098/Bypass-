@@ -8,5 +8,6 @@ lxml
 cfscrape
 urllib3==1.26
 flask
+aiohttp
 gunicorn
 curl-cffi
