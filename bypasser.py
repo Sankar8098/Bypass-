@@ -9,6 +9,9 @@ from bs4 import BeautifulSoup, NavigableString, Tag
 from lxml import etree
 import hashlib
 import json
+import aiohttp
+import asyncio
+from threading import Thread
 from asyncio import sleep as asleep
 import ddl
 from cfscrape import create_scraper
@@ -1145,7 +1148,6 @@ def dropbox(url):
 ######################################################
 # shareus
 
-
 async def shareus(url):
     code = url.split('/')[-1]
     DOMAIN = "https://api.shrslink.xyz"
@@ -1181,6 +1183,20 @@ async def shareus(url):
 
                 final = data_2['link_info']['destination']
                 return final
+
+def run_shareus(url):
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    result = loop.run_until_complete(shareus(url))
+    print(result)
+    return result
+
+# Example usage
+url = "https://example.com/some_path"
+thread = Thread(target=run_shareus, args=(url,))
+thread.start()
+thread.join()
+
 
 # To run the async function
 # url = "your_url_here"
