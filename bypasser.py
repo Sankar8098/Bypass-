@@ -249,16 +249,16 @@ def tnlink(url):
         return "Something went wrong :("
 
 ##############################################################
-# tnlink
+# sharetoearn
 
 
-def tnlink(url):
+def sharetoearn(url):
     client = requests.session()
-    DOMAIN = "https://page.tnlink.in/"
+    DOMAIN = "https://sharetoearn.in.in/"
     url = url[:-1] if url[-1] == "/" else url
     code = url.split("/")[-1]
     final_url = f"{DOMAIN}/{code}"
-    ref = "https://usanewstoday.club/"
+    ref = "https://updatetamila.com/"
     h = {"referer": ref}
     while len(client.cookies) == 0:
         resp = client.get(final_url, headers=h)
