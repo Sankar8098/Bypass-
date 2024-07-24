@@ -254,7 +254,7 @@ def tnlink(url):
 
 def sharetoearn(url):
     client = requests.session()
-    DOMAIN = "https://sharetoearn.in.in/"
+    DOMAIN = "https://sharetoearn.in/"
     url = url[:-1] if url[-1] == "/" else url
     code = url.split("/")[-1]
     final_url = f"{DOMAIN}/{code}"
