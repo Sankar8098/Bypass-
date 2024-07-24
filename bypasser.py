@@ -2711,6 +2711,12 @@ def shortners(url):
         print("entered tnlink: ", url)
         return tnlink(url)
 
+    # sharetoearn
+    elif "https://sharetoearn.in/" in url:
+        print("entered sharetoearn: ", url)
+        return sharetoearn(url)
+
+
     # mdiskshortners
     elif "https://mdiskshortners.in/" in url:
         print("entered mdiskshortners: ", url)
