@@ -34,14 +34,6 @@ print(f"api_id: {api_id}")
 
 app = Client("my_bot", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
 
-with app:
-    app.set_bot_commands(
-        [
-            BotCommand("start", "Welcome Message"),
-            BotCommand("help", "List of All Supported Sites"),
-        ]
-    )
-
 # DB
 db_api = getenv("DB_API")
 db_owner = getenv("DB_OWNER")
