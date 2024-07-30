@@ -452,6 +452,25 @@ async def docfile(client: pyrogram.client.Client, message: pyrogram.types.messag
         bypass = threading.Thread(target=lambda:docthread(message),daemon=True)
         bypass.start()
 
+# files
+@app.on_message([filters.document, filters.photo, filters.video])
+def docfile(
+    client: Client,
+    message: Message,
+):
+
+    try:
+        if message.document.file_name.endswith("dlc"):
+            bypass = Thread(target=lambda: docthread(message), daemon=True)
+            bypass.start()
+            return
+    except:
+        pass
+
+    bypass = Thread(target=lambda: loopthread(message, True), daemon=True)
+    bypass.start()
+
+
 # server loop
 print("Bot Starting")
 app.run()
